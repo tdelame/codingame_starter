@@ -1,4 +1,6 @@
 {
+  "codinGame.gameId": null,
+  "codinGame.isMulti": true,
   "C_Cpp.intelliSenseCacheSize": 0,
   "C_Cpp.intelliSenseEngine": "Default",
   "C_Cpp.intelliSenseEngineFallback": "Disabled",
