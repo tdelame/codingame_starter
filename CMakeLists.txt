@@ -15,7 +15,7 @@ if( NOT DEFINED REPOSITORY_ROOT )
   if( DEFINED ENV{REPOSITORY_ROOT} )
     set( REPOSITORY_ROOT $ENV{REPOSITORY_ROOT} )
   else()
-    set( REPOSITORY_ROOT "${PROJECT_ROOT}/.." )
+    set( REPOSITORY_ROOT "${PROJECT_ROOT}/../" )
   endif()
 endif()
 if( NOT DEFINED INCLUDE_DIR )
@@ -65,7 +65,7 @@ mark_as_advanced(
 # Setup targets
 add_executable( bot "src/bot.cpp")
 add_custom_command( TARGET bot POST_BUILD
-  COMMAND "${PROJECT_ROOT}/merge_source_files" "${PROJECT_ROOT}/src/bot.cpp" "${PROJECT_ROOT}" "${PROJECT_ROOT}/package/bot.cpp"
+  COMMAND "${PROJECT_ROOT}/merge_source_files" "${PROJECT_ROOT}/src/bot.cpp" "${INCLUDE_DIR}" "${PROJECT_ROOT}/package/bot.cpp"
   COMMENT "assembling CodinGame source"
 )
 

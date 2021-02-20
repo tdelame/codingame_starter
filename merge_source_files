@@ -49,8 +49,8 @@ if __name__ == "__main__":
 
     input_file_path = os.path.abspath(sys.argv[1])
     output_file_path = os.path.abspath(sys.argv[3])
-    project_include_directory = os.path.join(os.path.abspath(sys.argv[2]), "src")
-    tools_include_directory = os.path.join(os.path.abspath(os.path.dirname(__file__)), "include")
+    project_include_directory = os.path.join(os.path.abspath(os.path.dirname(__file__)), "src")
+    tools_include_directory = os.path.abspath(sys.argv[2])
 
     merger = Merger([tools_include_directory, project_include_directory])
     merger.merge(input_file_path, output_file_path)
