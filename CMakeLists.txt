@@ -71,4 +71,5 @@ add_custom_command( TARGET bot POST_BUILD
 
 add_executable( unit_tests "tests/unit_tests.cpp")
 
-# The VSCode extension will add targets below to compile previous bot versions
+file(TOUCH "PreviousBotVersions.cmake")
+include("PreviousBotVersions.cmake")
