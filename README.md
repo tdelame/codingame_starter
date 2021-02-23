@@ -15,7 +15,7 @@ This repository is a starter project to develop C++ CodinGame bots.
 
 This project is meant to be used on Linux with the following tools installed:
 * `cmake` to generate a build configuration for your projects
-* `ninja` to build your projects
+* `ninja` or `make` to build your projects (those are the only generators that produces `compile_commands.json` files, used by VSCode to parse and index C++ sources)
 * `clang` to compile c++ files
 * `python` to execute `merge_source_files`
 * `lld` to link compiled c++ files.
