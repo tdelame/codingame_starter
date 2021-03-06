@@ -6,12 +6,19 @@
 #  pragma GCC target("avx")
 #  define TRAP __builtin_trap()// function to call when something unexpected happen in the arena
 # else
+# ifdef _WIN32
+#  define _CRT_SECURE_NO_WARNINGS
+# endif
 #  include <csignal>
 #  define HAS_DEBUG_LOG        // allow logger::debug(...) commands to output text in stderr
 #  define HAS_INFO_LOG         // allow logger::info(...) commands to output text in stderr
 #  define HAS_CHECKS           // all Check(...), Expects(...), and Ensures(...) commands are kept in the produced binary
 #  define PROFILE              // allow the profiler to collect and print statistics
-#  define TRAP raise( SIGTRAP )// send this signal when something unexpected happen
+#  ifdef _WIN32
+#   define TRAP __debugbreak()
+#  else
+#   define TRAP raise( SIGTRAP )// send this signal when something unexpected happen
+#  endif
 // #  define LOG_INPUT
 # endif
 

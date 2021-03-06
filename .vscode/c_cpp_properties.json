@@ -6,7 +6,7 @@
       },
       "cStandard": "c11",
       "compileCommands": "${workspaceRoot}/.vscode/compile_commands.json",
-      "compilerPath": "/usr/bin/clang",
+      "compilerPath": "${codinGame.compilerPath}",
       "cppStandard": "c++17",
       "includePath": [
         "${workspaceRoot}/src",
@@ -14,6 +14,21 @@
       ],
       "intelliSenseMode": "clang-x64",
       "name": "Linux"
+    },
+    {
+      "browse": {
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "cStandard": "c11",
+      "compileCommands": "${workspaceRoot}/.vscode/compile_commands.json",
+      "compilerPath": "${codinGame.compilerPath}",
+      "cppStandard": "c++17",
+      "includePath": [
+        "${workspaceRoot}/src",
+        "${codinGame.includePath}"
+      ],
+      "intelliSenseMode": "clang-x64",
+      "name": "Win32"
     }
   ],
   "version": 4

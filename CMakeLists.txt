@@ -1,8 +1,15 @@
+# Note: I would normally not include_directories(), link_directories(), and link_directories() as
+# such commands have a global effect. Instead, I prefer target_include_directories(),
+# target_link_directories(), and target_compile_options(). However, to keep things simple, I chose
+# here the global commands.
+
 # Setup cmake
 cmake_minimum_required( VERSION 3.5 )
 project( Bot )
 set( CMAKE_CONFIGURATION_TYPES "Release;Dev;Debug" )
-set( CMAKE_POSITION_INDEPENDENT_CODE ON )
+if( UNIX )
+  set( CMAKE_POSITION_INDEPENDENT_CODE ON )
+endif()
 set( CMAKE_EXPORT_COMPILE_COMMANDS ON )
 
 if( NOT CMAKE_BUILD_TYPE )
@@ -40,22 +47,30 @@ include_directories( "${INCLUDE_DIR}" "${PROJECT_ROOT}/src" "${PROJECT_ROOT}/tes
 link_directories( "${LIB_DIR}" )
 file( MAKE_DIRECTORY "${PROJECT_ROOT}/package" )
 
-# Setup compiler options (harcoded for clang + lld)
-add_compile_options( -std=c++17 -Wall -Wextra -Wconversion -Wshadow-all -Wno-shadow-field-in-constructor -Wno-format-security )
-set( LINKER_SELECTION "-fuse-ld=lld" )
-set( COMPILER_DEBUG_INFO "-fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ggdb3 -D_GLIBCXX_ASSERTIONS=1" )
+# Setup compiler options
+if( CMAKE_CXX_COMPILER_ID STREQUAL "Clang" )
+  # Harcoded setup for clang + ldd
+  add_compile_options( -std=c++17 -Wall -Wextra -Wconversion -Wshadow-all -Wno-shadow-field-in-constructor -Wno-format-security -m64 )
+  set( LINKER_FLAGS "-fuse-ld=lld" )
+  set( COMPILER_OPTIMIZATION_FLAGS "-O3")
+  set( COMPILER_NO_OPTIMIZATION_FLAGS "-O0")
+  set( COMPILER_DEBUG_INFO "-fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ggdb3 -D_GLIBCXX_ASSERTIONS=1" )
+else()
+  # Setup for you own compiler + linker here
+  message( WARNING "Not using a Clang compiler: make sure to add a configuration for your ${CMAKE_CXX_COMPILER_ID} compiler")
+endif()
 
-set( CMAKE_CXX_FLAGS_RELEASE "-O3" )
-set( CMAKE_CXX_FLAGS_DEV     "-O3 ${COMPILER_DEBUG_INFO}" )
-set( CMAKE_CXX_FLAGS_DEBUG   "-O0 ${COMPILER_DEBUG_INFO}" )
+set( CMAKE_CXX_FLAGS_RELEASE "${COMPILER_OPTIMIZATION_FLAGS}" )
+set( CMAKE_CXX_FLAGS_DEV     "${COMPILER_OPTIMIZATION_FLAGS} ${COMPILER_DEBUG_INFO}" )
+set( CMAKE_CXX_FLAGS_DEBUG   "${COMPILER_NO_OPTIMIZATION_FLAGS} ${COMPILER_DEBUG_INFO}" )
 
-set( CMAKE_SHARED_LINKER_FLAGS_RELEASE "${LINKER_SELECTION}" CACHE STRING "" FORCE )
-set( CMAKE_SHARED_LINKER_FLAGS_DEV     "${LINKER_SELECTION}" CACHE STRING "" FORCE )
-set( CMAKE_SHARED_LINKER_FLAGS_DEBUG   "${LINKER_SELECTION}" CACHE STRING "" FORCE )
+set( CMAKE_SHARED_LINKER_FLAGS_RELEASE "${LINKER_FLAGS}" CACHE STRING "" FORCE )
+set( CMAKE_SHARED_LINKER_FLAGS_DEV     "${LINKER_FLAGS}" CACHE STRING "" FORCE )
+set( CMAKE_SHARED_LINKER_FLAGS_DEBUG   "${LINKER_FLAGS}" CACHE STRING "" FORCE )
 
-set( CMAKE_EXE_LINKER_FLAGS_RELEASE "${LINKER_SELECTION}" CACHE STRING "" FORCE )
-set( CMAKE_EXE_LINKER_FLAGS_DEV     "${LINKER_SELECTION}" CACHE STRING "" FORCE )
-set( CMAKE_EXE_LINKER_FLAGS_DEBUG   "${LINKER_SELECTION}" CACHE STRING "" FORCE )
+set( CMAKE_EXE_LINKER_FLAGS_RELEASE "${LINKER_FLAGS}" CACHE STRING "" FORCE )
+set( CMAKE_EXE_LINKER_FLAGS_DEV     "${LINKER_FLAGS}" CACHE STRING "" FORCE )
+set( CMAKE_EXE_LINKER_FLAGS_DEBUG   "${LINKER_FLAGS}" CACHE STRING "" FORCE )
 
 mark_as_advanced( 
   CMAKE_CXX_FLAGS_RELEASE CMAKE_SHARED_LINKER_FLAGS_RELEASE CMAKE_EXE_LINKER_FLAGS_RELEASE
