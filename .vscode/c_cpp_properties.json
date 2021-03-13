@@ -6,7 +6,7 @@
       },
       "cStandard": "c11",
       "compileCommands": "${workspaceRoot}/.vscode/compile_commands.json",
-      "compilerPath": "${codinGame.compilerPath}",
+      "compilerPath": "${codinGame.cCompilerPath}",
       "cppStandard": "c++17",
       "includePath": [
         "${workspaceRoot}/src",
@@ -21,7 +21,7 @@
       },
       "cStandard": "c11",
       "compileCommands": "${workspaceRoot}/.vscode/compile_commands.json",
-      "compilerPath": "${codinGame.compilerPath}",
+      "compilerPath": "${codinGame.cCompilerPath}",
       "cppStandard": "c++17",
       "includePath": [
         "${workspaceRoot}/src",
