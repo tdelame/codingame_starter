@@ -1,6 +1,6 @@
 # CodinGame Starter Project
 
-This repository is a starter project to develop C++ CodinGame bots. 
+This repository is a starter project to develop C++ CodinGame bots. You can read [this article on my blog](https://virtual-atom.com/codingame/tooling/) to learn how to use it.
 
 ## Contents
 
