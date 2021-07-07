@@ -55,9 +55,14 @@ if( CMAKE_CXX_COMPILER_ID STREQUAL "Clang" )
   set( COMPILER_OPTIMIZATION_FLAGS "-O3")
   set( COMPILER_NO_OPTIMIZATION_FLAGS "-O0")
   set( COMPILER_DEBUG_INFO "-fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ggdb3 -D_GLIBCXX_ASSERTIONS=1" )
+elseif( MSVC )
+  add_compile_options( /std:c++17 /sdl /Wall /nologo /wd4514 /wd5045 /wd4820 /wd4626 /wd5027 /wd4623 /wd4625 /wd4710 /wd4711 /Zi)
+  set( COMPILER_NO_OPTIMIZATION_FLAGS "/Od /wd4710")
+  set( COMPILER_DEBUG_INFO "/Z7 /Zi")
+  set( LINKER_FLAGS "/DEBUG /INCREMENTAL:NO /OPT:REF /OPT:ICF")
 else()
   # Setup for you own compiler + linker here
-  message( WARNING "Not using a Clang compiler: make sure to add a configuration for your ${CMAKE_CXX_COMPILER_ID} compiler")
+  message( WARNING "Not using Clang or MSVC: make sure to add a configuration for your ${CMAKE_CXX_COMPILER_ID} compiler")
 endif()
 
 set( CMAKE_CXX_FLAGS_RELEASE "${COMPILER_OPTIMIZATION_FLAGS}" )
@@ -80,7 +85,7 @@ mark_as_advanced(
 # Setup targets
 add_executable( bot "src/bot.cpp")
 add_custom_command( TARGET bot POST_BUILD
-  COMMAND "${PROJECT_ROOT}/merge_source_files.py" "${PROJECT_ROOT}/src/bot.cpp" "${INCLUDE_DIR}" "${PROJECT_ROOT}/package/bot.cpp"
+  COMMAND "python" "${PROJECT_ROOT}/merge_source_files.py" "${PROJECT_ROOT}/src/bot.cpp" "${INCLUDE_DIR}" "${PROJECT_ROOT}/package/bot.cpp"
   COMMENT "assembling CodinGame source"
 )
 
