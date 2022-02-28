@@ -50,7 +50,7 @@ file( MAKE_DIRECTORY "${PROJECT_ROOT}/package" )
 # Setup compiler options
 if( CMAKE_CXX_COMPILER_ID STREQUAL "Clang" )
   # Harcoded setup for clang + ldd
-  add_compile_options( -std=c++17 -Wall -Wextra -Wconversion -Wshadow-all -Wno-shadow-field-in-constructor -Wno-format-security -m64 )
+  add_compile_options( -std=c++17 -Wall -Wextra -Wconversion -Wshadow-all -Wno-shadow-field-in-constructor -Wno-format-security -m64 -mavx2 -mfma )
   set( LINKER_FLAGS "-fuse-ld=lld" )
   set( COMPILER_OPTIMIZATION_FLAGS "-O3")
   set( COMPILER_NO_OPTIMIZATION_FLAGS "-O0")
