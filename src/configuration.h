@@ -19,11 +19,10 @@
 #  else
 #   define TRAP raise( SIGTRAP )// send this signal when something unexpected happen
 #  endif
-// #  define LOG_INPUT
 # endif
 
-# define MEMORY_MEGA_BYTES 500 // how much memory to keep in the local memory handler 
-
+# define MEMORY_MEGA_BYTES 500 // how much memory to keep in the local memory handler
+# define BITSTREAM_BYTES 2048  // how much memory to use for bit streams
 # include <cinttypes>          // to bring any integral type definition in the scope
 
 namespace configuration {
