@@ -1,8 +1,3 @@
-# Note: I would normally not include_directories(), link_directories(), and link_directories() as
-# such commands have a global effect. Instead, I prefer target_include_directories(),
-# target_link_directories(), and target_compile_options(). However, to keep things simple, I chose
-# here the global commands.
-
 # Setup cmake
 cmake_minimum_required( VERSION 3.5 )
 project( Bot )
@@ -50,9 +45,9 @@ file( MAKE_DIRECTORY "${PROJECT_ROOT}/package" )
 # Setup compiler options
 if( CMAKE_CXX_COMPILER_ID STREQUAL "Clang" )
   # Harcoded setup for clang + ldd
-  add_compile_options( -std=c++17 -Wall -Wextra -Wconversion -Wshadow-all -Wno-shadow-field-in-constructor -Wno-format-security -m64 -mavx2 -mfma )
+  add_compile_options( -std=c++17 -lm -lpthread -ldl -lcrypt -Wall -Wextra -Wconversion -Wshadow-all -Wno-shadow-field-in-constructor -Wno-format-security -Wno-unused-command-line-argument -m64 -mavx2 -mfma -march=native )
   set( LINKER_FLAGS "-fuse-ld=lld" )
-  set( COMPILER_OPTIMIZATION_FLAGS "-O3")
+  set( COMPILER_OPTIMIZATION_FLAGS "-Ofast")
   set( COMPILER_NO_OPTIMIZATION_FLAGS "-O0")
   set( COMPILER_DEBUG_INFO "-fno-omit-frame-pointer -mno-omit-leaf-frame-pointer -ggdb3 -D_GLIBCXX_ASSERTIONS=1" )
 elseif( MSVC )
@@ -90,6 +85,3 @@ add_custom_command( TARGET bot POST_BUILD
 )
 
 add_executable( unit_tests "tests/unit_tests.cpp")
-
-file(TOUCH "PreviousBotVersions.cmake")
-include("PreviousBotVersions.cmake")
