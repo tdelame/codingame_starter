@@ -39,7 +39,7 @@ static constexpr size_t max_bitstream_bytes = 2048;
 # define CheckMsg(condition, arguments...) if constexpr (with_checks) {\
   if (__builtin_expect(!(condition),0)) {\
     fprintf(stderr, "FATAL: condition failure %s at %s:%i(%s)\n    ", STRINGIFY(condition), __FILE__, __LINE__, __PRETTY_FUNCTION__);\
-    fprintf(stderr, args...);\
+    fprintf(stderr, arguments);\
     TRAP;\
   }\
 }
@@ -48,3 +48,10 @@ namespace logger {
   template<typename... Args> void info( const char* format, const Args&... args ) { if constexpr (with_info_logger) fprintf( stderr, format, args... ); }
   template<typename... Args> void error( const char* format, const Args&... args ) { if constexpr (with_error_logger) fprintf( stderr, format, args... ); }
 }
+
+// Customize this interface to match the game rules.
+struct Output {
+  void finish() {
+    if constexpr(is_codingame) {fflush(stdout);}
+  }
+};
