@@ -59,6 +59,11 @@ else()
   # Setup for you own compiler + linker here
   message( WARNING "Not using Clang or MSVC: make sure to add a configuration for your ${CMAKE_CXX_COMPILER_ID} compiler")
 endif()
+if (WIN32)
+  add_compile_definitions(WITH_LINUX=0 WITH_WINDOWS=1)
+else()
+  add_compile_definitions(WITH_LINUX=1 WITH_WINDOWS=0)
+endif()
 
 set( CMAKE_CXX_FLAGS_RELEASE "${COMPILER_OPTIMIZATION_FLAGS}" )
 set( CMAKE_CXX_FLAGS_DEV     "${COMPILER_OPTIMIZATION_FLAGS} ${COMPILER_DEBUG_INFO}" )
@@ -77,11 +82,14 @@ mark_as_advanced(
   CMAKE_CXX_FLAGS_DEV     CMAKE_SHARED_LINKER_FLAGS_DEV     CMAKE_EXE_LINKER_FLAGS_DEV
   CMAKE_CXX_FLAGS_DEBUG   CMAKE_SHARED_LINKER_FLAGS_DEBUG   CMAKE_EXE_LINKER_FLAGS_DEBUG )
 
+file( GLOB_RECURSE BOT_HEADERS "*.h")
+
 # Setup targets
-add_executable( bot "src/bot.cpp")
+add_executable( bot "src/bot.cpp" ${BOT_HEADERS} )
+
 add_custom_command( TARGET bot POST_BUILD
   COMMAND "python" "${PROJECT_ROOT}/merge_source_files.py" "${PROJECT_ROOT}/src/bot.cpp" "${INCLUDE_DIR}" "${PROJECT_ROOT}/package/bot.cpp"
   COMMENT "assembling CodinGame source"
 )
 
-add_executable( unit_tests "tests/unit_tests.cpp")
+add_executable( unit_tests "tests/unit_tests.cpp" ${BOT_HEADERS})
