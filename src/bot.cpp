@@ -4,16 +4,26 @@
 struct FirstBot: public BotInterface {
   FirstBot(const BotInitializer& initializer) : BotInterface(initializer){}
 
+  void initialize(BotController &controller, Output &output, BitStream &bs) override {
+    (void)controller;
+    (void)output;
+    (void)bs;
+  }
+  void step(BotController &controller, Output &output, BitStream &bs) override {
+    (void)controller;
+    (void)output;
+    (void)bs;
+  }
+
   int loop() override {
     BotController controller{stdin};
     Output output;
     BitStream bs;
-    BitStream* bspointer = with_state_output ? &bs : nullptr;
 
     try {
-      initialize(controller, output, bspointer);
+      initialize(controller, output, bs);
       while (true) {
-        step(controller, output, bspointer);
+        step(controller, output, bs);
       }
     }
     catch (const std::exception& exc) {
@@ -21,20 +31,6 @@ struct FirstBot: public BotInterface {
       return 1;
     }
     return 0;
-  }
-
-  void initialize(BotController& controller, Output& output, BitStream* bs) override {
-    (void)controller;
-    (void)output;
-    (void)bs;
-  }
-  void step(BotController& controller, Output& output, BitStream* bs) override {
-    (void)controller;
-    (void)output;
-    (void)bs;
-  }
-  void reload(BitStream& bs) override {
-    (void)bs;
   }
 };
 REGISTER_BOT(FirstBot);

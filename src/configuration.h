@@ -41,6 +41,7 @@ static constexpr bool is_windows = WITH_WINDOWS;
 # include <cstring>                                                         // memset
 # include <cmath>
 static constexpr bool with_state_output = true;
+static constexpr bool with_state_check  = true;
 static constexpr bool with_debug_logger = true;
 static constexpr bool with_info_logger  = true;
 static constexpr bool with_error_logger = true;
