@@ -46,6 +46,7 @@ static constexpr bool with_debug_logger = true;
 static constexpr bool with_info_logger  = true;
 static constexpr bool with_error_logger = true;
 static constexpr bool with_checks       = true;
+static constexpr bool with_input_print  = true;
 static constexpr size_t max_bitstream_bytes = 2048;
 
 # define STRINGIFY_DETAIL(x) #x
